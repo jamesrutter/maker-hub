@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Dashboard</title>
+</head>
+
+<body>
+    <h1>IoT Sensor Data</h1>
+    <% if (sensorData) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Sensor Topic</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><%= topic %></td>
+                <td><%= sensorData %></td>
+            </tr>
+        </tbody>
+    </table>
+    <% } else { %>
+    <p>No data available.</p>
+    <% } %>
+</body>
+
+</html>
