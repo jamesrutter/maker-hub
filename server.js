@@ -13,8 +13,6 @@ const client = mqtt.connect('mqtt://localhost', {
 
 let tempData = '';
 
-import { handleSensorData } from './utils';
-
 client.on('connect', () => {
   console.log('Connected to MQTT broker.');
   client.subscribe('/maker-hub/sensor', (err) => {

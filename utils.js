@@ -6,7 +6,7 @@ export function handleSensorData(data) {
         const floatValue = parseFloat(sensorData.value);
         // Now you have the floating-point value, which you can store or further process
         console.log(floatValue);
-        storeSensorData(floatValue);
+        return floatValue; 
     } catch (e) {
         console.error('Error parsing sensor data:', e);
     }
