@@ -5,6 +5,9 @@ require('dotenv').config();
 app.set('view engine', 'ejs');
 
 const mqtt = require('mqtt');
+
+console.log(process.env.MQTT_USER, process.env.MQTT_PW, process.env.MQTT_PORT);
+
 const client = mqtt.connect('mqtt://localhost', {
   username: process.env.MQTT_USER,
   password: process.env.MQTT_PW,
@@ -15,12 +18,17 @@ let tempData = '';
 
 client.on('connect', () => {
   console.log('Connected to MQTT broker.');
-  client.subscribe('/maker-hub/sensor', (err) => {
+  client.subscribe('maker-hub/sensor', (err) => {
     if (!err) {
       console.log('MQTT subscription successful.');
     }
   });
 });
+
+client.on("error", (error) => {
+  console.error("Connection error:", error);
+});
+
 
 client.on('message', (topic, message) => {
   console.log('Received message from topic: ' + topic);
