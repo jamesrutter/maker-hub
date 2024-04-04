@@ -33,7 +33,8 @@ client.on("error", (error) => {
 client.on('message', (topic, message) => {
   console.log('Received message from topic: ' + topic);
   console.log('Message: ' + message.toString());
-  tempData = message.toString();
+  tempDataStr = message.toString();
+  tempDataNum = parseFloat(tempDataStr);
 });
 
 app.get('/', (req, res) => {
@@ -41,11 +42,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-  res.render('dashboard', { sensorData: tempData });
+  res.render('dashboard', { sensorData: tempDataStr });
 });
 
 app.get('/data', (req, res) => {
-  res.json(tempData || {});
+  res.json(tempDataNum || {});
 });
 
 app.listen(port, '0.0.0.0', () => {
