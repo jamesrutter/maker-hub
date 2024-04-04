@@ -1,4 +1,4 @@
-npm_modules 
+npm_modules
 # Node.js / NPM
 node_modules/
 npm-debug.log*
@@ -40,9 +40,8 @@ dist/
 build/
 
 # Project specific
-mqtt_messages.db
+sensor.db
 
 # Backup Files
 *.bak
 *.tmp
-
