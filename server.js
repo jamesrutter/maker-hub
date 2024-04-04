@@ -7,6 +7,12 @@ app.set("view engine", "ejs");
 const mqtt = require("mqtt");
 const db = require("./db/db");
 
+// Define lastSensorData in a broader scope
+let lastSensorData = {
+  value: null,
+  sensorId: "DS18B20-01" // Assuming a fixed sensor ID for simplicity
+};
+
 const client = mqtt.connect(process.env.MQTT_HOST, {
   username: process.env.MQTT_USER,
   password: process.env.MQTT_PW,
@@ -32,7 +38,8 @@ client.on("message", (topic, message) => {
   const value = parseFloat(messageStr);
 
   if (!isNaN(value)) {
-    logSensorData(sensorId, value);
+    lastSensorData.value = value;
+    logSensorData(lastSensorData.sensorId, value);
   } else {
     console.error(`Received non-numeric data from ${topic}: ${messageStr}`);
   }
@@ -43,11 +50,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  res.render("dashboard", { sensorData: messageStr });
+  res.render("dashboard", { sensorData: lastSensorData.value });
 });
 
 app.get("/data", (req, res) => {
-  res.json(value || {});
+  res.json({value: lastSensorData.value} || {});
 });
 
 app.listen(port, "0.0.0.0", () => {
