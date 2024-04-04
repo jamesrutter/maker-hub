@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const port = 3000;
 require('dotenv').config();
 app.set('view engine', 'ejs');
 
@@ -11,6 +12,8 @@ const client = mqtt.connect('mqtt://localhost', {
 });
 
 let tempData = '';
+
+import { handleSensorData } from './utils';
 
 client.on('connect', () => {
   console.log('Connected to MQTT broker.');
@@ -27,6 +30,10 @@ client.on('message', (topic, message) => {
   tempData = message.toString();
 });
 
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
 app.get('/dashboard', (req, res) => {
   res.render('dashboard', { sensorData: tempData });
 });
@@ -35,6 +42,6 @@ app.get('/data', (req, res) => {
   res.json(tempData || {});
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Maker Hub app listening at http://localhost:${port}`)
 });
